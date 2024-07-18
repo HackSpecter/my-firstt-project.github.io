@@ -164,7 +164,7 @@
 
         let score = 0;
         let pointsPerClick = 1;
-        let upgradeCost = 200;
+        let upgradeCost = 2000;
         let achievements = [];
 
         function addPoints() {
@@ -191,7 +191,7 @@
             if (score >= upgradeCost) {
                 score -= upgradeCost;
                 pointsPerClick += 1;
-                upgradeCost = pointsPerClick * 200;
+                upgradeCost = pointsPerClick * 2000;
                 document.getElementById('score').innerText = score;
                 document.querySelector('.btn:nth-child(1)').innerText = `Улучшить клик (+${pointsPerClick}) за ${upgradeCost} очков`;
                 checkUpgradeAvailability();
