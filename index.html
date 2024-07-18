@@ -23,32 +23,38 @@
             background-image: url('https://example.com/background-image.jpg'); /* Замените URL на ваше фоновое изображение */
             background-size: cover;
             background-repeat: no-repeat;
+            overflow: hidden; /* Отключение прокрутки */
         }
         .container {
             background-color: rgba(1, 6, 31, 0.8); /* Прозрачный цвет фона контейнера */
-            padding: 100px;
+            padding: 20px; /* Уменьшено для мобильных устройств */
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
             text-align: center;
             max-width: 250px;
             width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         .title {
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 24px; /* Уменьшено для мобильных устройств */
+            margin-bottom: 10px;
             text-transform: uppercase;
             font-family: 'Press Start 2P', cursive;
         }
         .coin {
-            width: 300px; /* Увеличенный размер кликабельной области */
-            height: 300px;
-            margin: 100px auto;
+            width: 100px; /* Уменьшено для мобильных устройств */
+            height: 100px;
+            margin: 20px auto;
             background: url('https://www.advgazeta.ru/upload/iblock/174/edtlpxlu6bbj0h0k9s0ia7085si4sufv/iskusstvennyy_intellekt_pomogaet_predprinimatelyam_i_tvortsam.jpg') no-repeat center center;
             background-size: cover;
-            border-radius: 100%;
-            border: 8px solid #00ff00;
+            border-radius: 50%;
+            border: 4px solid #00ff00;
             cursor: pointer;
             transition: transform 0.1s, border-color 0.3s;
+            position: relative;
         }
         .coin:active {
             transform: scale(0.9);
@@ -62,11 +68,11 @@
         .buttons {
             display: flex;
             flex-direction: column;
-            gap: 7px; /* Уменьшенный отступ между кнопками */
-            margin-top: 20px; /* Добавлен отступ сверху */
+            gap: 5px; /* Уменьшенный отступ между кнопками */
+            margin-top: 10px; /* Добавлен отступ сверху */
         }
         .btn {
-            padding: 3px 6px; /* Уменьшенный размер кнопок */
+            padding: 5px 10px; /* Уменьшенный размер кнопок */
             margin: 0 auto;
             border: none;
             border-radius: 5px;
@@ -87,7 +93,7 @@
             transform: scale(1.05);
         }
         .footer {
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 9.5px; /* Уменьшенный размер текста внизу */
             font-family: 'Press Start 2P', cursive;
         }
@@ -103,6 +109,27 @@
             height: 2px;
             background-color: #00ff00;
             animation: fallingStars 5s linear infinite;
+        }
+        /* Анимация для отображения очков */
+        .points {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: #00ff00;
+            opacity: 0;
+            animation: showPoints 1s ease-out forwards;
+        }
+        @keyframes showPoints {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -200%) scale(1.5);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -120,6 +147,21 @@
     </div>
     <audio id="clickSound" src="https://example.com/click-sound.mp3"></audio> <!-- Замените URL на ваш звуковой файл -->
     <script>
+        // Загрузка сохраненного прогресса
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedScore = localStorage.getItem('score');
+            const savedPointsPerClick = localStorage.getItem('pointsPerClick');
+            if (savedScore) {
+                score = parseInt(savedScore, 10);
+            }
+            if (savedPointsPerClick) {
+                pointsPerClick = parseInt(savedPointsPerClick, 10);
+            }
+            document.getElementById('score').innerText = score;
+            document.querySelector('.btn:nth-child(1)').innerText = `Улучшить клик (+${pointsPerClick}) за ${upgradeCost} очков`;
+            checkUpgradeAvailability();
+        });
+
         let score = 0;
         let pointsPerClick = 1;
         let upgradeCost = 200;
@@ -129,8 +171,20 @@
             score += pointsPerClick;
             document.getElementById('score').innerText = score;
             document.getElementById('clickSound').play(); // Воспроизведение звука клика
+            showPointsAnimation(pointsPerClick);
             checkUpgradeAvailability();
             checkAchievements();
+            saveProgress(); // Сохранение прогресса
+        }
+
+        function showPointsAnimation(points) {
+            const pointsElement = document.createElement('div');
+            pointsElement.className = 'points';
+            pointsElement.innerText = `+${points}`;
+            document.querySelector('.coin').appendChild(pointsElement);
+            setTimeout(() => {
+                pointsElement.remove();
+            }, 1000); // Удаление элемента после окончания анимации
         }
 
         function upgradeClick() {
@@ -141,6 +195,7 @@
                 document.getElementById('score').innerText = score;
                 document.querySelector('.btn:nth-child(1)').innerText = `Улучшить клик (+${pointsPerClick}) за ${upgradeCost} очков`;
                 checkUpgradeAvailability();
+                saveProgress(); // Сохранение прогресса
             } else {
                 alert('Не хватает очков для улучшения!');
             }
@@ -151,11 +206,13 @@
         }
 
         function inviteFriend() {
-            alert('Скопируйте и отправьте эту ссылку вашему другу: https://t.me/HackSpecterBot');
+            const telegramUrl = 'https://t.me/share/url?url=https://t.me/HackSpecterBot&text=Присоединяйтесь к игре Hack Specter!';
+            window.open(telegramUrl, '_blank');
         }
 
         function thankCreator() {
-            alert('Спасибо за вашу поддержку! Свяжитесь с нами: https://t.me/HackSpecterr');
+            const telegramUrl = 'https://t.me/HackSpecterr';
+            window.open(telegramUrl, '_blank');
         }
 
         function checkAchievements() {
@@ -170,6 +227,11 @@
                 achievements.push(achievement);
                 alert(`Достижение разблокировано: ${achievement}`);
             });
+        }
+
+        function saveProgress() {
+            localStorage.setItem('score', score);
+            localStorage.setItem('pointsPerClick', pointsPerClick);
         }
 
         function createStars() {
