@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кошелек</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'HackerFont';
+            src: url('https://example.com/hacker-font.ttf') format('truetype');
+        }
+        body {
+            font-family: 'HackerFont', 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #01051a;
+            color: #00ff00;
+            background-image: url('hhttps://png.pngtree.com/png-vector/20200224/ourlarge/pngtree-colorful-loading-icon-png-image_2152960.jpg'); /* Замените URL на ваше фоновое изображение */
+            background-size: cover;
+            background-repeat: no-repeat;
+            overflow: hidden; /* Убедитесь, что анимация не выходит за пределы экрана */
+        }
+        .icon-container {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .loader-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        .loader {
+            border: 10px solid rgba(0, 255, 0, 0.2);
+            border-top: 10px solid #00ff00;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .footer {
+            font-size: 16px; /* Уменьшенный размер текста */
+            margin-top: 20px;
+            font-family: 'Press Start 2P', cursive;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00ff00; }
+        }
+        .nav {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(1, 6, 31, 0.9);
+            padding: 10px 0;
+        }
+        .nav a {
+            color: #00ff00;
+            text-decoration: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav a .icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        /* Анимация падающих звездочек */
+        @keyframes fallingStars {
+            0% { transform: translateY(-1000px); }
+            100% { transform: translateY(1000px); }
+        }
+        .star {
+            position: absolute;
+            top: -10px;
+            width: 2px;
+            height: 2px;
+            background-color: #00ff00;
+            animation: fallingStars 5s linear infinite;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="icon-container">
+        <i class="fas fa-wallet"></i> <!-- Иконка в верхней части страницы -->
+    </div>
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <div class="footer">Скоро будет доступно...</div>
+
+</div>
+
+<div class="nav">
+    <a href="index.html">
+        <i class="fas fa-home icon"></i>
+        Главная
+    </a>
+    <a href="boost.html">
+        <i class="fas fa-rocket icon"></i>
+        Ускорить
+    </a>
+    <a href="uskor.html">
+        <i class="fas fa-tasks icon"></i>
+        Задания
+    </a>
+    <a href="friends.html">
+        <i class="fas fa-user-friends icon"></i>
+        Друзья
+    </a>
+    <a href="wallet.html">
+        <i class="fas fa-wallet icon"></i>
+        Кошелек
+    </a>
+</div>
+
+    <script>
+        function createStars() {
+            for (let i = 0; i < 100; i++) { // Увеличиваем количество звезд
+                let star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(star);
+            }
+        }
+
+        createStars();
+    </script>
+</body>
+</html>
