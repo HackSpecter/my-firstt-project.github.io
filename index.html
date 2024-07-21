@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker Clicker Game</title>
+    <title>Hack Emperi Clicker Game</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @font-face {
             font-family: 'HackerFont';
@@ -18,134 +19,154 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #01051a;
-            color: #00ff00;
-            background-image: url('https://example.com/background-image.jpg'); /* Замените URL на ваше фоновое изображение */
-            background-size: cover;
-            background-repeat: no-repeat;
+            color: #00ff00; /* Цвет текста на странице */
             overflow: hidden; /* Отключение прокрутки */
-        }
-        .container {
-            background-color: rgba(1, 6, 31, 0.8); /* Прозрачный цвет фона контейнера */
-            padding: 80px; /* Уменьшено для мобильных устройств */
-            border-radius: 50px;
-            box-shadow: 0 0 60px rgba(0, 255, 0, 0.5);
-            text-align: center;
-            max-width: 350px;
-            width: 100%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .title {
-            font-size: 22px; /* Уменьшено для мобильных устройств */
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            font-family: 'Press Start 2P', cursive;
-        }
-        .coin {
-            width: 300px; /* Уменьшено для мобильных устройств */
-            height: 300px;
-            margin: 90px auto;
-            background: url('https://www.advgazeta.ru/upload/iblock/174/edtlpxlu6bbj0h0k9s0ia7085si4sufv/iskusstvennyy_intellekt_pomogaet_predprinimatelyam_i_tvortsam.jpg') no-repeat center center;
-            background-size: cover;
-            border-radius: 50%;
-            border: 4px solid #00ff00;
-            cursor: pointer;
-            transition: transform 0.1s, border-color 0.3s;
             position: relative;
         }
+        video.backgroundVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover; /* Чтобы видео покрывало весь экран без искажения */
+            z-index: -1; /* Видео будет находиться за основным контентом */
+        }
+        .container {
+            /*background-color: rgba(1, 6, 31, 0.8); /* Цвет фона контейнера с прозрачностью */
+           /* padding: 80px; /* Отступы вокруг содержимого контейнера */
+           /* border-radius: 50px; /* Скругление углов контейнера */
+           /* box-shadow: 0 0 60px rgba(255, 0, 255, 0.5); /* Тень контейнера */
+            text-align: center;
+            max-width: 350px; /* Максимальная ширина контейнера */
+            width: 100%; /* Ширина контейнера на 100% от родителя */
+            position: relative;
+            perspective: 800px; /* Создание перспективы для 3D-эффекта */
+            display: none; /* Скрытие контейнера до завершения анимации загрузки */
+        }
+        .title {
+            font-size: 22px; /* Размер шрифта для заголовка */
+            margin-bottom: 2px; /* Отступ снизу для заголовка */
+            text-transform: uppercase; /* Преобразование текста в верхний регистр */
+            font-family: 'Press Start 2P', cursive; /* Шрифт заголовка */
+        }
+        .coin {
+            width: 400px; /* Ширина монеты */
+            height: 400px; /* Высота монеты */
+            margin: 90px auto; /* Отступы сверху и снизу, центрирование по горизонтали */
+            background: url('a1n3ece6.png') no-repeat center center; /* Замените URL на изображение монеты */
+            background-size: cover; /* Обложка изображения для заполнения контейнера */
+            border-radius: 50%; /* Скругление углов для создания круглой формы */
+            /*border: 4px solid #00ff4c; /* Цвет и ширина границы монеты */
+            cursor: pointer; /* Указатель мыши в виде руки при наведении */
+            transition: transform 0.3s, border-color 0.3s; /* Переход для анимаций */
+            position: relative;
+            transform-style: preserve-3d; /* Включение 3D-преобразований */
+        }
         .coin:active {
-            transform: scale(0.9);
-            border-color: #00cc00;
+            transform: scale(0.9) rotateY(10deg) rotateX(10deg); /* Эффект нажатия: уменьшение и поворот */
+            border-color: #00cc00; /* Цвет границы при нажатии */
         }
         .score {
-            font-size: 12px; /* Уменьшенный размер текста для очков */
-            margin: 10px;
-            font-family: 'Press Start 2P', cursive;
+            font-size: 12px; /* Размер шрифта для счета */
+            margin: 10px; /* Отступы вокруг счета */
+            font-family: 'Press Start 2P', cursive; /* Шрифт для счета */
         }
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 5px; /* Уменьшенный отступ между кнопками */
-            margin-top: 100px; /* Добавлен отступ сверху */
-        }
-        .btn {
-            padding: 8px 18px; /* Уменьшенный размер кнопок */
-            margin: 50 auto;
-            border: none;
-            border-radius: 5px;
-            background-color: #00ff00;
-            color: #0f0f0f;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-family: 'Press Start 2P', cursive;
-            text-transform: uppercase;
-            font-size: 8px; /* Уменьшенный размер текста кнопок */
-        }
-        .btn:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-        }
-        .btn:hover:not(:disabled) {
-            background-color: #00cc00;
-            transform: scale(1.05);
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 9.5px; /* Уменьшенный размер текста внизу */
-            font-family: 'Press Start 2P', cursive;
-        }
-        /* Анимация падающих звездочек */
-        @keyframes fallingStars {
-            0% { transform: translateY(-1000px); }
-            100% { transform: translateY(1000px); }
-        }
-        .star {
-            position: absolute;
-            top: -10px;
-            width: 2px;
-            height: 2px;
-            background-color: #00ff00;
-            animation: fallingStars 5s linear infinite;
-        }
-        /* Анимация для отображения очков */
         .points {
             position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            color: #00ff00;
-            opacity: 0;
-            animation: showPoints 1s ease-out forwards;
+            font-size: 20px; /* Размер шрифта для анимации очков */
+            color: #00ff00; /* Цвет текста для анимации очков */
+            transition: transform 0.5s, opacity 0.5s; /* Переходы для анимации */
         }
-        @keyframes showPoints {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -200%) scale(1.5);
-                opacity: 0;
-            }
+        .buttons {
+            display: none; /* Скрытие старых кнопок */
+        }
+        .footer {
+            display: none; /* Скрытие старой надписи внизу */
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            background-color: rgba(1, 6, 31, 0.8); /* Цвет фона навигации с прозрачностью */
+            padding: 10px 0; /* Отступы вокруг навигации */
+            display: none; /* Скрытие навигации до завершения анимации загрузки */
+        }
+        .nav a {
+            color: #00ff00; /* Цвет текста в навигации */
+            text-decoration: none; /* Удаление подчеркивания у ссылок */
+            font-family: 'Press Start 2P', cursive; /* Шрифт навигационных ссылок */
+            font-size: 12px; /* Размер шрифта для навигационных ссылок */
+            text-align: center; /* Выравнивание текста по центру */
+            flex: 1; /* Равное распределение ссылок */
+        }
+        .nav a:hover {
+            color: #00cc00; /* Цвет текста при наведении */
+        }
+        .nav i {
+            display: block;
+            font-size: 20px; /* Размер иконок в навигации */
+            margin-bottom: 5px; /* Отступ снизу для иконок */
+        }
+        .loading {
+           
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25px; /* Размер шрифта для текста загрузки */
+            font-family: 'Press Start 2P', cursive; /* Шрифт для текста загрузки */
+            color: #00ff00; /* Цвет текста загрузки */
+            white-space: nowrap;
+            animation: blink 1s infinite; /* Анимация мигания текста загрузки */
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
     </style>
 </head>
 <body>
+    <video id="loadingVideo" class="backgroundVideo" autoplay muted>
+        <source src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/1098340/ed0f1be27eab79d06a54fe9657d49a5fee0e12c8.mp4" type="video/mp4">
+        Ваш браузер не поддерживает воспроизведение видео.
+    </video>
+    <video id="backgroundVideo" class="backgroundVideo" autoplay muted loop style="display: none;">
+        <source src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/504400/2b0792025824dfe8a1aa161ebe74ddee128d39cd.mp4" type="video/mp4">
+        Ваш браузер не поддерживает воспроизведение видео.
+    </video>
+    <div class="loading">Hack Empire</div>
     <div class="container">
-        <div class="title">Hack Specter</div>
-        <div class="score">Очки: <span id="score">0</span></div>
+        <div class="title">Hack Empire</div>
+        <div class="score">Баланс: <span id="score">0</span></div>
         <div class="coin" onclick="addPoints()"></div>
-        <div class="buttons">
-            <button class="btn" onclick="upgradeClick()">Улучшить клик (+1)</button>
-            <button class="btn" onclick="inviteFriend()">Пригласить друга</button>
-            <button class="btn" onclick="thankCreator()">Благодарить создателя</button>
-        </div>
-        <div class="footer">Набирайте больше очков и следите за новыми обновлениями.</div>
     </div>
-    <audio id="clickSound" src="https://example.com/click-sound.mp3"></audio> <!-- Замените URL на ваш звуковой файл -->
+    <div class="nav">
+        <a href="index.html">
+            <i class="fas fa-home icon"></i>
+            Главная
+        </a>
+        <a href="#">
+            <i class="fas fa-rocket icon"></i>
+            Ускорить
+        </a>
+        <a href="#">
+            <i class="fas fa-tasks icon"></i>
+            Задания
+        </a>
+        <a href="#">
+            <i class="fas fa-user-friends icon"></i>
+            Друзья
+        </a>
+        <a href="wallet.html">
+            <i class="fas fa-wallet icon"></i>
+            Кошелек
+        </a>
+    </div>
+    <audio id="clickSound" src="https://example.com/click-sound.mp3"></audio>
     <script>
         // Загрузка сохраненного прогресса
         document.addEventListener('DOMContentLoaded', () => {
@@ -158,14 +179,12 @@
                 pointsPerClick = parseInt(savedPointsPerClick, 10);
             }
             document.getElementById('score').innerText = score;
-            document.querySelector('.btn:nth-child(1)').innerText = `Улучшить клик (+${pointsPerClick}) за ${upgradeCost} очков`;
-            checkUpgradeAvailability();
+            updateUpgradeButton();
         });
 
         let score = 0;
         let pointsPerClick = 1;
         let upgradeCost = 2000;
-        let achievements = [];
 
         function addPoints() {
             score += pointsPerClick;
@@ -173,7 +192,7 @@
             document.getElementById('clickSound').play(); // Воспроизведение звука клика
             showPointsAnimation(pointsPerClick);
             checkUpgradeAvailability();
-            checkAchievements();
+         
             saveProgress(); // Сохранение прогресса
         }
 
@@ -181,10 +200,20 @@
             const pointsElement = document.createElement('div');
             pointsElement.className = 'points';
             pointsElement.innerText = `+${points}`;
-            document.querySelector('.coin').appendChild(pointsElement);
+            const coin = document.querySelector('.coin');
+            coin.appendChild(pointsElement);
+
+            // Определение начальных и конечных точек для анимации
+            pointsElement.style.top = `${Math.random() * 20 - 10}px`;
+            pointsElement.style.left = `${Math.random() * 20 - 10}px`;
+
+            // Анимация эффекта увеличения очков
+            pointsElement.style.transform = `translateY(-40px)`;
+            pointsElement.style.opacity = 0;
+
             setTimeout(() => {
-                pointsElement.remove();
-            }, 1000); // Удаление элемента после окончания анимации
+                pointsElement.remove(); // Удаление элемента после окончания анимации
+            }, 1000);
         }
 
         function upgradeClick() {
@@ -193,40 +222,19 @@
                 pointsPerClick += 1;
                 upgradeCost = pointsPerClick * 2000;
                 document.getElementById('score').innerText = score;
-                document.querySelector('.btn:nth-child(1)').innerText = `Улучшить клик (+${pointsPerClick}) за ${upgradeCost} очков`;
-                checkUpgradeAvailability();
+                updateUpgradeButton();
                 saveProgress(); // Сохранение прогресса
             } else {
                 alert('Не хватает очков для улучшения!');
             }
         }
 
+        function updateUpgradeButton() {
+            // Вставьте сюда код для обновления кнопки улучшения (если она существует)
+        }
+
         function checkUpgradeAvailability() {
-            document.querySelector('.btn:nth-child(1)').disabled = score < upgradeCost;
-        }
-
-        function inviteFriend() {
-            const telegramUrl = 'https://t.me/share/url?url=https://t.me/HackSpecterBot&text=Присоединяйтесь к игре Hack Specter!';
-            window.open(telegramUrl, '_blank');
-        }
-
-        function thankCreator() {
-            const telegramUrl = 'https://t.me/HackSpecterr';
-            window.open(telegramUrl, '_blank');
-        }
-
-        function checkAchievements() {
-            let newAchievements = [];
-            if (score >= 1000 && !achievements.includes('1000 очков')) {
-                newAchievements.push('1000 очков');
-            }
-            if (pointsPerClick >= 5 && !achievements.includes('Клик +5')) {
-                newAchievements.push('Клик +5');
-            }
-            newAchievements.forEach(achievement => {
-                achievements.push(achievement);
-                alert(`Достижение разблокировано: ${achievement}`);
-            });
+            // Вставьте сюда код для проверки доступности улучшения (если есть)
         }
 
         function saveProgress() {
@@ -246,7 +254,17 @@
         }
 
         createStars();
-        checkUpgradeAvailability();
+
+        // Показать основной контент после завершения анимации загрузки
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading').style.display = 'none'; // Скрытие анимации загрузки
+                document.getElementById('loadingVideo').style.display = 'none'; // Скрытие видео загрузки
+                document.getElementById('backgroundVideo').style.display = 'block'; // Показываем фоновое видео
+                document.querySelector('.container').style.display = 'block'; // Показываем контейнер с игрой
+                document.querySelector('.nav').style.display = 'flex'; // Показываем навигацию
+            }, 3000); // Задержка перед отображением основного контента
+        });
     </script>
 </body>
 </html>
